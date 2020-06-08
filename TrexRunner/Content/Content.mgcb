@@ -1,8 +1,8 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin/$(Platform)
-/intermediateDir:obj/$(Platform)
+/outputDir:bin
+/intermediateDir:obj
 /platform:Windows
 /config:
 /profile:Reach
@@ -12,20 +12,6 @@
 
 
 #---------------------------------- Content ---------------------------------#
-
-<<<<<<< HEAD
-=======
-#begin 100-offline-sprite.png.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:100-offline-sprite.png.png
 
 #begin button-press.mp3
 /importer:Mp3Importer
@@ -45,4 +31,15 @@
 /processorParam:Quality=Best
 /build:score-reached.mp3
 
->>>>>>> cbc8c04... Adicionar arquivos de projeto.
+#begin TrexSpritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TrexSpritesheet.png
+
