@@ -9,10 +9,10 @@ using TrexRunner.Graphics;
 namespace TrexRunner.Entities {
     public class Trex : IGameEntity {
 
-        private const int TREX_DEFAULT_SPRITE_POS_X = 848;
-        private const int TREX_DEFAULT_SPRITE_POS_Y = 0;
-        private const int TREX_DEFAULT_SPRITE_WIDTH = 44;
-        private const int TREX_DEFAULT_SPRITE_HEIGHT = 52; 
+        public const int TREX_DEFAULT_SPRITE_POS_X = 848;
+        public const int TREX_DEFAULT_SPRITE_POS_Y = 0;
+        public const int TREX_DEFAULT_SPRITE_WIDTH = 44;
+        public const int TREX_DEFAULT_SPRITE_HEIGHT = 52; 
 
         public Sprite Sprite { get; private set; }
 
