@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TrexRunner.Entities;
+using TrexRunner.Graphics;
 
 namespace TrexRunner
 {
@@ -21,6 +23,8 @@ namespace TrexRunner
         private SoundEffect _sfxScoreReached;
 
         private Texture2D _spriteSheetTexture;
+
+        private Trex _trex;
         
 
         public TrexRunnerGame()
@@ -45,6 +49,8 @@ namespace TrexRunner
             _sfxScoreReached = Content.Load<SoundEffect>(ASSET_NAME_SFX_SCORE_REACHED);
 
             _spriteSheetTexture = Content.Load<Texture2D>(ASSET_NAME_SPRITESHEET);
+
+            _trex = new Trex(_spriteSheetTexture, new Vector2(20, 20));
         }
 
         protected override void Update(GameTime gameTime)
@@ -63,11 +69,11 @@ namespace TrexRunner
 
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(_spriteSheetTexture, new Vector2(10, 10), Color.White);
+            _trex.Draw(_spriteBatch, gameTime);
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
     }
-}//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+}
