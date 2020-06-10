@@ -33,7 +33,7 @@ namespace TrexRunner
         private Texture2D _spriteSheetTexture;
 
         private Trex _trex;
-        
+
 
         public TrexRunnerGame()
         {
@@ -63,6 +63,7 @@ namespace TrexRunner
             _spriteSheetTexture = Content.Load<Texture2D>(ASSET_NAME_SPRITESHEET);
 
             _trex = new Trex(_spriteSheetTexture, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_SPRITE_HEIGHT));
+
         }
 
         protected override void Update(GameTime gameTime)
