@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TrexRunner.Graphics {
@@ -14,6 +16,17 @@ namespace TrexRunner.Graphics {
             }
         }
 
+        public SpriteAnimationFrame CurrentFrame {
+
+            get {
+
+                return _frames
+                    .Where(f => f.TimeStamp <= PlaybackProgress)
+                    .OrderBy(f => f.TimeStamp)
+                    .LastOrDefault();
+            }
+        }
+
         public bool IsPlaying { get; private set; }
 
         public float PlaybackProgress { get; private set; }
@@ -24,14 +37,22 @@ namespace TrexRunner.Graphics {
 
             _frames.Add(frame);
 
-            SpriteAnimation anim = new SpriteAnimation();
-            //add a couple of frames
-
-            anim.GetFrame(1);
-
         }
 
         public void Update(GameTime gameTime) {
+
+            if(IsPlaying) {
+                PlaybackProgress += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position) {
+
+            SpriteAnimationFrame frame = CurrentFrame;
+
+            if(frame != null) {
+                frame.Sprite.Draw(spriteBatch, position);
+            }
 
         }
 
@@ -45,6 +66,7 @@ namespace TrexRunner.Graphics {
         public void Stop() {
 
             IsPlaying = false;
+            PlaybackProgress = 0;
 
         }
 
@@ -55,5 +77,7 @@ namespace TrexRunner.Graphics {
 
             return _frames[index];
         }
+
+        
     }
 }
