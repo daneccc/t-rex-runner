@@ -27,6 +27,17 @@ namespace TrexRunner.Graphics {
             }
         }
 
+        public float Duration {
+
+            get {
+
+                if (!_frames.Any())
+                    return 0;
+
+                return _frames.Max(f => f.TimeStamp);
+            }
+        }
+
         public bool IsPlaying { get; private set; }
 
         public float PlaybackProgress { get; private set; }
@@ -41,8 +52,11 @@ namespace TrexRunner.Graphics {
 
         public void Update(GameTime gameTime) {
 
-            if(IsPlaying) {
+            if (IsPlaying) {
                 PlaybackProgress += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (PlaybackProgress > Duration)
+                    PlaybackProgress -= Duration;
             }
         }
 
