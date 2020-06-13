@@ -17,9 +17,18 @@ namespace TrexRunner.Entities {
         public const int TREX_DEFAULT_SPRITE_WIDTH = 44;
         public const int TREX_DEFAULT_SPRITE_HEIGHT = 52;
 
-        private Sprite _idleBackgroundSprite;
-        private SpriteAnimation _idleAnimation;
+        private const float BLINK_ANIMATION_RANDOM_MIN = 2f;
+        private const float BLINK_ANIMATION_RANDOM_MAX = 10f;
+        private const float BLINK_ANIMATION_EYE_CLOSE_TIME = 0.5f;
 
+        private Sprite _idleBackgroundSprite;
+
+        private Sprite _idleSprite;
+        private Sprite _idleBlinkSprite;
+
+        private SpriteAnimation _blinkAnimation;
+
+        private Random _random;
 
         public TrexState State { get; private set; }
 
@@ -37,31 +46,49 @@ namespace TrexRunner.Entities {
             _idleBackgroundSprite = new Sprite(spriteSheet, TREX_IDLE_BACKGROUNG_SPRITE_POS_X, TREX_IDLE_BACKGROUNG_SPRITE_POS_Y, TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_HEIGHT);
             State = TrexState.Idle;
 
-            _idleAnimation = new SpriteAnimation();
-            _idleAnimation.AddFrame(new Sprite(spriteSheet, TREX_DEFAULT_SPRITE_POS_X, TREX_DEFAULT_SPRITE_POS_Y, TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_HEIGHT), 0);
-            _idleAnimation.AddFrame(new Sprite(spriteSheet, TREX_DEFAULT_SPRITE_POS_X + TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_POS_Y, TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_HEIGHT), 1 / 20f);
-            _idleAnimation.AddFrame(new Sprite(spriteSheet, TREX_DEFAULT_SPRITE_POS_X, TREX_DEFAULT_SPRITE_POS_Y, TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_HEIGHT), 1 / 20f * 2);
-            _idleAnimation.Play();
+            _random = new Random();
 
+
+            _idleSprite = new Sprite(spriteSheet, TREX_DEFAULT_SPRITE_POS_X, TREX_DEFAULT_SPRITE_POS_Y, TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_HEIGHT);
+            _idleBlinkSprite = new Sprite(spriteSheet, TREX_DEFAULT_SPRITE_POS_X + TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_POS_Y, TREX_DEFAULT_SPRITE_WIDTH, TREX_DEFAULT_SPRITE_HEIGHT);
+
+            CreateBlinkAnimation();
+            _blinkAnimation.Play()
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime) {
 
             if(State == TrexState.Idle) {
-
                 _idleBackgroundSprite.Draw(spriteBatch, Position);
-                _idleAnimation.Draw(spriteBatch, Position);
+                _blinkAnimation.Draw(spriteBatch, Position);
             }
-
         }
 
         public void Update(GameTime gameTime) {
 
             if (State == TrexState.Idle) {
 
-                _idleAnimation.Update(gameTime);
+                if (!_blinkAnimation.IsPlaying) {
+                    CreateBlinkAnimation();
+                    _blinkAnimation.Play();
+                }
+                
+                _blinkAnimation.Update(gameTime);
 
             }
+        }
+
+        private void CreateBlinkAnimation() {
+
+            _blinkAnimation = new SpriteAnimation();
+            _blinkAnimation.ShouldLoop = false;
+
+            double blinkTimeStamp = 2f + _random.NextDouble() * (BLINK_ANIMATION_RANDOM_MAX - BLINK_ANIMATION_RANDOM_MIN);
+
+            _blinkAnimation.AddFrame(_idleSprite, 0);
+            _blinkAnimation.AddFrame(_idleBlinkSprite, (float)blinkTimeStamp);
+            _blinkAnimation.AddFrame(_idleSprite, (float)blinkTimeStamp + BLINK_ANIMATION_EYE_CLOSE_TIME);
+
         }
     }
 }

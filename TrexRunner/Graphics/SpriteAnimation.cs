@@ -42,6 +42,8 @@ namespace TrexRunner.Graphics {
 
         public float PlaybackProgress { get; private set; }
 
+        public bool ShouldLoop { get; set; } = true;
+
         public void AddFrame(Sprite sprite, float timeStamp) {
 
             SpriteAnimationFrame frame = new SpriteAnimationFrame(sprite, timeStamp);
@@ -55,8 +57,14 @@ namespace TrexRunner.Graphics {
             if (IsPlaying) {
                 PlaybackProgress += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (PlaybackProgress > Duration)
-                    PlaybackProgress -= Duration;
+                if (PlaybackProgress > Duration) {
+                    if(ShouldLoop) {
+                        PlaybackProgress -= Duration;
+                    } else {
+                        Stop();
+                    }
+                }
+                
             }
         }
 
